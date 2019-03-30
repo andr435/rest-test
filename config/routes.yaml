@@ -1,3 +1,7 @@
 album:
         type: rest
         resource: App\Controller\AlbumController
+
+user:
+        type: rest
+        resource: App\Controller\UserController

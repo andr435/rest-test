@@ -41,7 +41,7 @@ class UserController extends FOSRestController
         $this->userRep = $userRep;
     }
 
-    public function getTokenAction(Request $request)
+    public function postTokenAction(Request $request)
     {
 
     }
