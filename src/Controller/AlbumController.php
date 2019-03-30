@@ -12,6 +12,8 @@ use App\Entity\Album;
 use App\Form\AlbumType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+
 
 /**
  * Class AlbumController
@@ -48,14 +50,18 @@ class AlbumController extends FOSRestController
     public function postAction(Request $request)
     {
         $form = $this->createForm(AlbumType::class, new Album());
-        $form->submit($request->request->all());
+	try{
+	$form->submit($request->request->all());
 
         if (false === $form->isValid()) {
             return $this->view($form, 400);
-        }
+	}
+	} catch(\Exception $e){
+		throw new HttpException(400, "invalid or missing data");
+	}	
 
-        $this->entityManager->persist($form->getData());
-        $this->entityManager->flush();
+        $this->em->persist($form->getData());
+        $this->em->flush();
 
         return $this->view(null, 201);
     }
