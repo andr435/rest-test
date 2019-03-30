@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\AlbumRepository;
 use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\Routing\Annotation\Route;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -24,14 +25,24 @@ class AlbumController extends FOSRestController
      */
     private $em;
 
-    public function __construct(EntityManagerInterface $em)
+    /**
+     * @var AlbumRepository
+     */
+    private $albumRep;
+
+    /**
+     * AlbumController constructor.
+     * @param EntityManagerInterface $em
+     */
+    public function __construct(EntityManagerInterface $em, AlbumRepository $alRep)
     {
         $this->em = $em;
+        $this->albumRep = $alRep;
     }
 
     public function getAction()
     {
-	    $this->view("get album", 200);
+        return $this->view($this->albumRep->findAll(), 200);
     }
 
     public function postAction(Request $request)
@@ -40,31 +51,37 @@ class AlbumController extends FOSRestController
         $form->submit($request->request->all());
 
         if (false === $form->isValid()) {
-            return $this->handleView(
-                $this->view($form)
-            );
+            return $this->view($form, 400);
         }
 
         $this->entityManager->persist($form->getData());
         $this->entityManager->flush();
 
-        return $this->handleView(
-            $this->view(null, Response::HTTP_CREATED)
-        );
+        return $this->view(null, 201);
     }
 
     public function cgetAction(Album $album)
     {
-        $this->view($album, 200);
+        return $this->view($album, 200);
     }
 
     public function putAction(Request $request, Album $album)
     {
-        $this->view("update album", 200);
+        $form = $this->createForm(AlbumType::class, $album);
+        $form->submit($request->request->all(), false);
+
+        if(false === $form->isValid()){
+            return $this->view($form);
+        }
+
+        $this->em->flush();
+        return $this->view(null, 204);
     }
 
     public function deleteAction(Album $album)
     {
-        $this->view("delete album", 200);
+        $this->em->remove($album);
+        $this->em->flush();
+        return $this->view(null, 204);
     }
 }
