@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AlbumRepository")
@@ -17,16 +19,19 @@ class Album
     private $id;
 
     /**
+     * @Assert\NotBlank
      * @ORM\Column(type="string", length=255)
      */
     private $title;
 
     /**
+     * @Assert\GreaterThan(0)
      * @ORM\Column(type="integer")
      */
     private $track;
 
     /**
+     * @var \DateTime
      * @ORM\Column(type="datetime")
      */
     private $releaseDate;
