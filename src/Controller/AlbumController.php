@@ -35,6 +35,7 @@ class AlbumController extends FOSRestController
     /**
      * AlbumController constructor.
      * @param EntityManagerInterface $em
+     * @param AlbumRepository $alRep
      */
     public function __construct(EntityManagerInterface $em, AlbumRepository $alRep)
     {
