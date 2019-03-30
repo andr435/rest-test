@@ -60,7 +60,7 @@ class UserController extends FOSRestController
                 'exp' => time() + 3600 // 1 hour expiration
             ]);
 
-        return $this->view(['token' => 'Bearer '.$token], 204);
+        return $this->view(['token' => 'Bearer '.$token], 200);
 
     }
 
