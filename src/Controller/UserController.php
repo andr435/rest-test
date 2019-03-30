@@ -43,6 +43,24 @@ class UserController extends FOSRestController
 
     public function postTokenAction(Request $request)
     {
+        $userName = $request->request->get('username', null);
+        $pwd = $request->request->get('password', null);
+        if(is_null($userName) || is_null($pwd)){
+            throw new HttpException(400, "missing username or password");
+        }
+
+        $user = $this->userRep->findOneBy(["username" => $userName]);
+        if(!$user || $user->getPassword() != md5($pwd)){
+            throw new HttpException(400, "incorrect credentials");
+        }
+
+        $token = $this->get('lexik_jwt_authentication.encoder')
+            ->encode([
+                'username' => $user->getUsername(),
+                'exp' => time() + 3600 // 1 hour expiration
+            ]);
+
+        return $this->view(['token' => 'Bearer '.$token], 204);
 
     }
 
