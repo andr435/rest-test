@@ -19,7 +19,10 @@ final class Version20190330194234 extends AbstractMigration
 
     public function up(Schema $schema) : void
     {
-        // this up() migration is auto-generated, please modify it to your needs
+         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+
+        $this->addSql('INSERT INTO user (username, password, active, country) VALUES ("test@test.com","e10adc3949ba59abbe56e057f20f883e", 1, "Israel"),("admin@test.com","d8578edf8458ce06fbc5bb76a58c5ca4",1,"Russia")');
+
 
     }
 
