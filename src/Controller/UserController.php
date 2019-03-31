@@ -66,6 +66,12 @@ class UserController extends FOSRestController
 
     public function getAccountAction()
     {
-        return $this->view($this->getUser(), 200);
+        $user = $this->getUser();
+        $userArr = [
+            'username' => $user->getUsername(),
+            'active' => $user->getActive(),
+            'country' => $user->getCountry()
+        ];
+        return $this->view($userArr, 200);
     }
 }

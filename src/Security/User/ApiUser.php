@@ -15,12 +15,14 @@ class ApiUser implements UserInterface, EquatableInterface
     private $country;
     private $active;
 
-    public function __construct($username, $password, $salt, array $roles)
+    public function __construct($username, $password, $salt, array $roles, $active, $country)
     {
         $this->username = $username;
         $this->password = $password;
         $this->salt = $salt;
         $this->roles = $roles;
+        $this->active = $active;
+        $this->country = $country;
     }
 
     public function getRoles()

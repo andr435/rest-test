@@ -56,7 +56,7 @@ class ApiuserProvider implements UserProviderInterface
 
             // ...
 
-            return new ApiUser($username, $password, '', []);
+            return new ApiUser($username, $password, '', [], $userData->getActive(), $userData->getCountry());
         }
 
         throw new UsernameNotFoundException(
