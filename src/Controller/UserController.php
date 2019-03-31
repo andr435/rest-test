@@ -66,6 +66,6 @@ class UserController extends FOSRestController
 
     public function getAccountAction()
     {
-        
+        return $this->view($this->getUser(), 200);
     }
 }
