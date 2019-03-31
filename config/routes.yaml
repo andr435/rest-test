@@ -5,3 +5,6 @@ album:
 user:
         type: rest
         resource: App\Controller\UserController
+
+api_login_check:
+            path: /api/login_check
