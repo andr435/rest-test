@@ -5,14 +5,11 @@ security:
             id: App\Security\User\ApiuserProvider
 
     encoders:
-            App\Security\User\WebserviceUser: md5
+            App\Security\User\ApiUser: md5
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        main:
-            anonymous: true
-
         login:
             pattern:  ^/token
             stateless: true
@@ -25,6 +22,8 @@ security:
         api:
             pattern:   ^/
             stateless: true
+            anonymous: false
+            provider: apiuser
             guard:
                 authenticators:
                     - lexik_jwt_authentication.jwt_token_authenticator

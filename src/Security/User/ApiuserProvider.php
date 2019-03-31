@@ -21,7 +21,7 @@ class ApiuserProvider implements UserProviderInterface
 
     public function loadUserByUsername($username)
     {
-        return $this->fetchUser($username);
+	    return $this->fetchUser($username);
     }
 
     public function refreshUser(UserInterface $user)
@@ -46,7 +46,7 @@ class ApiuserProvider implements UserProviderInterface
     {
         // make a call to your webservice here
         $userData = $this->userRep->findOneBy(['username' => $username]);
-        if(!$userData){
+	if(!$userData){
             return false;
         }
         // pretend it returns an array on success, false if there is no user
